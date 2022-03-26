@@ -40,7 +40,6 @@ function saveCredentials(args) {
 async function fetchAulaMessages() {
   // Get credentials
   const creds = getCredentials().split(" ");
-  console.log("creds:", creds);
 
   if (!creds) {
     console.log("Please add credentials using the 'creds' option");
@@ -50,6 +49,12 @@ async function fetchAulaMessages() {
   // Fetch messages
   const browser = await puppeteer.launch({
     headless: false,
+    devtools: true,
+    defaultViewport: {
+      width: 1500,
+      height: 1000,
+    },
+    args: ["--start-fullscreen"],
   });
   const page = await browser.newPage();
   await page.goto("https://www.aula.dk/portal/#/login");
@@ -73,6 +78,10 @@ async function fetchAulaMessages() {
   await page.click(
     "body > main > div > div > form > nav > div > div.col-7.col-sm-8.col-md-7.col-lg-7.order-2 > button"
   );
+
+  // Go to 'beskeder' page
+  await page.waitForTimeout(5000);
+  await page.goto("https://www.aula.dk/portal/#/beskeder");
 
   // await browser.close();
 }
