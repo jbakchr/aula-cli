@@ -62,10 +62,17 @@ async function fetchAulaMessages() {
     page.waitForNavigation(),
   ]);
 
-  // Click username field, type username and click next button
+  // Enter username
   await page.waitForTimeout(2000);
   await page.type("#username", creds[0], { delay: 100 });
   await page.click("body > main > div > div > form > nav > button");
+
+  // Enter password
+  await page.waitForTimeout(2000);
+  await page.type("#form-error", creds[1], { delay: 100 });
+  await page.click(
+    "body > main > div > div > form > nav > div > div.col-7.col-sm-8.col-md-7.col-lg-7.order-2 > button"
+  );
 
   // await browser.close();
 }
