@@ -8,6 +8,23 @@ const program = new Command();
 program.name("aula").description("Node CLI for Aula").version("1.0.0");
 
 program
+  .command("creds")
+  .description("Provide credentials needed for use of Aula")
+  .option("-u, --username <string>", "username for Aula")
+  .option("-p, --password <string>", "password for Aula")
+  .action((args) => {
+    const creds = `${args.username} ${args.password}`;
+
+    fs.writeFile(path.join(__dirname, "creds", "creds.txt"), creds, (err) => {
+      if (err) {
+        console.log("unable to save credentials");
+      } else {
+        console.log("Credentials saved");
+      }
+    });
+  });
+
+program
   .command("msg")
   .description("Aula messages from 'Beskeder'")
   .action(() => {
@@ -20,7 +37,7 @@ async function fetchAulaMessages() {
   // Read credentials
   let creds;
   try {
-    const data = fs.readFileSync(path.join(__dirname, "creds/creds.txt"));
+    const data = fs.readFileSync(path.join(__dirname, "creds", "creds.txt"));
     creds = data.toString().split(" ");
     console.log("creds:", creds);
   } catch (error) {
