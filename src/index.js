@@ -39,7 +39,8 @@ function saveCredentials(args) {
 
 async function fetchAulaMessages() {
   // Get credentials
-  const creds = getCredentials();
+  const creds = getCredentials().split(" ");
+  console.log("creds:", creds);
 
   if (!creds) {
     console.log("Please add credentials using the 'creds' option");
@@ -53,7 +54,20 @@ async function fetchAulaMessages() {
   const page = await browser.newPage();
   await page.goto("https://www.aula.dk/portal/#/login");
 
-  await browser.close();
+  // Go to username page
+  await Promise.all([
+    page.click(
+      "#main > div.container > div.row.justify-content-md-center.mt-4.box-container > div:nth-child(1) > div"
+    ),
+    page.waitForNavigation(),
+  ]);
+
+  // Click username field, type username and click next button
+  await page.waitForTimeout(2000);
+  await page.type("#username", creds[0], { delay: 100 });
+  await page.click("body > main > div > div > form > nav > button");
+
+  // await browser.close();
 }
 
 function getCredentials() {
