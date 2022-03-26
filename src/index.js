@@ -38,14 +38,11 @@ function saveCredentials(args) {
 }
 
 async function fetchAulaMessages() {
-  // Read credentials
-  let creds;
-  try {
-    const data = fs.readFileSync(path.join(__dirname, "creds", "creds.txt"));
-    creds = data.toString().split(" ");
-    console.log("creds:", creds);
-  } catch (error) {
-    console.log("Please login using the CLI in order to fetch Aula messages");
+  // Get credentials
+  const creds = getCredentials();
+
+  if (!creds) {
+    console.log("Please add credentials using the 'creds' option");
     return;
   }
 
@@ -55,6 +52,20 @@ async function fetchAulaMessages() {
   });
   const page = await browser.newPage();
   await page.goto("https://www.aula.dk/portal/#/login");
+
+  await browser.close();
+}
+
+function getCredentials() {
+  try {
+    const data = fs.readFileSync(
+      path.join(__dirname, "creds", "creds.txt"),
+      "utf-8"
+    );
+    return data;
+  } catch (error) {
+    return null;
+  }
 }
 
 module.exports = program;
