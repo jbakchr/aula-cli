@@ -8,15 +8,6 @@ const program = new Command();
 program.name("aula").description("Node CLI for Aula").version("1.0.0");
 
 program
-  .command("creds")
-  .description("Provide credentials for Aula login")
-  .option("-u, --username")
-  .option("-p, --password")
-  .action((str, options) => {
-    console.log(options.username);
-  });
-
-program
   .command("msg")
   .description("Aula messages from 'Beskeder'")
   .action(() => {
