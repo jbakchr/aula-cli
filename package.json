@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/jbakchr/aula-cli#readme",
   "dependencies": {
-    "commander": "^9.1.0"
+    "commander": "^9.1.0",
+    "puppeteer": "^13.5.1"
   },
   "bin": {
     "aula": "./bin/aula.js"
