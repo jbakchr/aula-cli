@@ -13,15 +13,7 @@ program
   .option("-u, --username <string>", "username for Aula")
   .option("-p, --password <string>", "password for Aula")
   .action((args) => {
-    const creds = `${args.username} ${args.password}`;
-
-    fs.writeFile(path.join(__dirname, "creds", "creds.txt"), creds, (err) => {
-      if (err) {
-        console.log("unable to save credentials");
-      } else {
-        console.log("Credentials saved");
-      }
-    });
+    saveCredentials(args);
   });
 
 program
@@ -32,6 +24,18 @@ program
   });
 
 program.parse();
+
+function saveCredentials(args) {
+  const creds = `${args.username} ${args.password}`;
+
+  fs.writeFile(path.join(__dirname, "creds", "creds.txt"), creds, (err) => {
+    if (err) {
+      console.log("unable to save credentials");
+    } else {
+      console.log("Credentials saved");
+    }
+  });
+}
 
 async function fetchAulaMessages() {
   // Read credentials
